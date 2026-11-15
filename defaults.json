@@ -1,0 +1,4 @@
+{
+  "hostnames": ["www.washingtonpost.com", "www.nytimes.com"],
+  "prefix": "https://archive.is/newest/"
+}

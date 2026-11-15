@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Site Link Rewriter</title>
+  <link rel="stylesheet" href="settings.css">
+  <script src="settings.js" defer></script>
+</head>
+<body>
+  <main>
+    <h1>Site Link Rewriter</h1>
+    <form>
+      <label for="site">Site hostnames</label>
+      <textarea id="site" rows="4" placeholder="www.washingtonpost.com" required
+        autocapitalize="none" spellcheck="false" aria-describedby="site-help"></textarea>
+      <small id="site-help">Enter the hostnames of the pages to rewrite, one per line or separated by commas.</small>
+
+      <label for="prefix">URL prefix</label>
+      <input id="prefix" type="url" placeholder="https://example.com" required
+        autocapitalize="none" spellcheck="false" aria-describedby="preview">
+      <output id="preview" for="prefix"></output>
+
+      <button disabled>Save settings</button>
+      <p id="status" role="status"></p>
+    </form>
+  </main>
+</body>
+</html>

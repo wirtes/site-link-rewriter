@@ -1,0 +1,18 @@
+{
+  "manifest_version": 3,
+  "name": "Site Link Rewriter",
+  "version": "1.1.7",
+  "description": "Remove query parameters, add a URL prefix, and open links in a new tab on sites you choose.",
+  "permissions": ["scripting", "storage", "contextMenus"],
+  "optional_host_permissions": ["http://*/*", "https://*/*"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_title": "Site Link Rewriter"
+  },
+  "options_ui": {
+    "page": "settings.html",
+    "open_in_tab": true
+  }
+}
