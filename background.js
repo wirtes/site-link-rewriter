@@ -3,8 +3,8 @@ chrome.action.onClicked.addListener(() => {
 });
 
 const linkActions = {
-  "context-open-modified": "Open modified URL",
-  "context-open-original": "Open original URL"
+  "context-open-archived": "Open Archived link",
+  "context-open-original": "Open Original link"
 };
 
 let menuUpdate = Promise.resolve();
@@ -75,7 +75,7 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
   if (!Object.hasOwn(linkActions, info.menuItemId) || tab?.id == null || !info.linkUrl) return;
 
   try {
-    if (info.menuItemId === "context-open-modified") {
+    if (info.menuItemId === "context-open-archived") {
       const { settings } = await chrome.storage.local.get("settings");
       if (!settings?.prefix) return;
       let href = info.linkUrl;
@@ -95,7 +95,7 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
       linkUrl: info.linkUrl
     }, { frameId: info.frameId ?? 0 });
     if (link?.originalHref) {
-      await chrome.tabs.create({ url: link.originalHref, windowId: tab.windowId });
+      await chrome.tabs.update(tab.id, { url: link.originalHref });
     }
   } catch (error) {
     console.error("Could not open the link from the context menu.", error);
@@ -103,8 +103,9 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
 });
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-  if ((message?.type !== "open-link" && message?.type !== "open-original-link") ||
-      !sender.tab || typeof message.url !== "string") return;
+  if ((message?.type !== "open-link" && message?.type !== "open-original-link" &&
+       message?.type !== "navigate-link") ||
+      sender.tab?.id == null || typeof message.url !== "string") return;
 
   let url;
   try {
@@ -114,7 +115,10 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   }
   if (url.protocol !== "https:" && url.protocol !== "http:") return;
 
-  chrome.tabs.create({ url: url.href, windowId: sender.tab.windowId }).then(
+  const action = message.type === "navigate-link"
+    ? chrome.tabs.update(sender.tab.id, { url: url.href })
+    : chrome.tabs.create({ url: url.href, windowId: sender.tab.windowId });
+  action.then(
     () => sendResponse({ opened: true }),
     (error) => {
       console.error("Could not open the link.", error);

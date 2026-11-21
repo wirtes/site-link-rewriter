@@ -4,7 +4,7 @@ A Manifest V3 extension for Brave and Chrome. It rewrites HTTP and HTTPS links o
 
 On a configured site, hold **Shift** while clicking a web link to open its original destination in a new tab in the same window, including any query parameters.
 
-Right-click a web link on a configured site and choose **Open modified URL** or **Open original URL** from the **Site Link Rewriter** menu. Both actions open a new tab in the same window.
+Right-click or long-press a web link on a configured site and choose **Open Archived link** to open the rewritten destination in a new tab, or **Open Original link** to open the original destination in the current tab, including any query parameters.
 
 Use `https://archive.is/newest/` as the URL prefix to open the newest available Archive.is snapshot. If there is no snapshot, Archive.is shows its results page. For an existing installation using `https://archive.is/`, update the prefix in the extension settings and save.
 
@@ -19,7 +19,7 @@ Edit `defaults.json` in the extension folder before installing or sharing it. Li
 }
 ```
 
-Keep `defaults.json` next to `manifest.json`. To share the extension, zip the folder. The recipient can unzip it and follow the installation steps below. The packaged values prefill the settings on first use. Click **Save settings** and grant access to activate rewriting. Existing installations use their saved settings.
+Keep `defaults.json` next to `manifest.json`. Run `python3 package_plugin.py` to create or overwrite `packaged bookmark/site-link.zip`. The archive contains only the extension files listed by the packager, not source-control data or workspace files. The recipient can unzip it and follow the installation steps below. The packaged values prefill the settings on first use. Click **Save settings** and grant access to activate rewriting. Existing installations use their saved settings.
 
 ## Install and configure
 
